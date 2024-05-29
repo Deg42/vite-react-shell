@@ -1,0 +1,32 @@
+import { Button } from 'flowbite-react';
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from './assets/vite.svg';
+
+export default function Home() {
+    const [count, setCount] = useState(0)
+    return (
+        <div className="flex flex-col text-center my-40">
+            <div className="flex justify-center">
+                <a href="https://vitejs.dev" target="_blank">
+                    <img src={viteLogo} className="logo" alt="Vite logo" />
+                </a>
+                <a href="https://react.dev" target="_blank">
+                    <img src={reactLogo} className="logo react" alt="React logo" />
+                </a>
+            </div>
+            <h1 className="text-3xl font-bold">Vite + React</h1>
+            <div className="p-8 flex flex-col items-center">
+                <Button className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm text-center" onClick={() => setCount((count) => count + 1)}>
+                    count is {count}
+                </Button>
+                <p className="p-3">
+                    Edit <code>src/App.tsx</code> and save to test HMR
+                </p>
+            </div>
+            <p className="text-gray-500">
+                Click on the Vite and React logos to learn more
+            </p>
+        </div>
+    );
+}

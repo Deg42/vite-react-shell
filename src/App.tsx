@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Grid3X3 from './DragAndDrop/Grid3X3';
+import Grid3X3 from './DragAndDrop/Grid3X3/Grid3X3';
 import Home from './Home';
 import Layout from './Layout';
 

@@ -6,7 +6,7 @@ import viteLogo from './assets/vite.svg';
 export default function Home() {
     const [count, setCount] = useState(0)
     return (
-        <div className="flex flex-col text-center my-40">
+        <main className="flex flex-col text-center mt-40">
             <div className="flex justify-center">
                 <a href="https://vitejs.dev" target="_blank">
                     <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -27,6 +27,6 @@ export default function Home() {
             <p className="text-gray-500">
                 Click on the Vite and React logos to learn more
             </p>
-        </div>
+        </main>
     );
 }

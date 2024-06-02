@@ -1,4 +1,5 @@
 import { CustomFlowbiteTheme, Sidebar } from 'flowbite-react';
+import { FaChess } from "react-icons/fa";
 import { HiHand, HiHome, HiOutlineMinusSm, HiOutlinePlusSm, HiViewGrid } from 'react-icons/hi';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
@@ -38,6 +39,7 @@ export default function Layout() {
               }}
             >
               <Link to="/Grid3X3"><Sidebar.Item as={"span"} icon={HiViewGrid} active={useLocation().pathname === "/Grid3X3"}>Grid 3x3</Sidebar.Item></Link>
+              <Link to="/Chess"><Sidebar.Item as={"span"} icon={FaChess} active={useLocation().pathname === "/Chess"}>Chess</Sidebar.Item></Link>
             </Sidebar.Collapse>
           </Sidebar.ItemGroup>
         </Sidebar.Items>

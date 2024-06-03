@@ -16,8 +16,10 @@ export interface ChessPieceType {
     type: 'pawn' | 'rook' | 'knight' | 'bishop' | 'queen' | 'king';
     color: 'white' | 'black';
     position: string;
+    size?: string;
 }
-const ChessPiece: React.FC<ChessPieceType> = ({ type, color, position }) => {
+
+const ChessPiece: React.FC<ChessPieceType> = ({ type, color, position, size }) => {
     const pieceComponents = {
         pawn: color === 'white' ? whitePawn : blackPawn,
         rook: color === 'white' ? whiteRook : blackRook,
@@ -31,13 +33,17 @@ const ChessPiece: React.FC<ChessPieceType> = ({ type, color, position }) => {
     const handleDragStart = (event: React.DragEvent<HTMLDivElement>) => {
         event.dataTransfer.setData('id', (event.target as HTMLDivElement).id);
     }
+    
+    const imageSize = size ? size : 'size-16';
 
     return <img
-        id={type + "-" + color + "-" + position}
+        id={"piece-" + type + "-" + color + "-" + position}
         src={pieceIcon}
         draggable="true"
         onDragStart={handleDragStart}
-        className="size-16" />;
+        className={imageSize}
+        alt={`${color} ${type} at ${position}`}
+    />;
 };
 
 export default ChessPiece;

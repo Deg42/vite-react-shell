@@ -1,7 +1,10 @@
+import { Button } from 'flowbite-react';
 import React, { useState } from 'react';
-import ChessPiece, { ChessPieceType } from "./ChessPiece";
+import { HiRefresh } from 'react-icons/hi';
+import './Chess.css';
+import ChessPiece, { ChessPieceType } from './ChessPiece';
 
-const Chess = () => {
+const Chess: React.FC = () => {
     const col = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
     const row = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
@@ -13,7 +16,7 @@ const Chess = () => {
     };
 
     const [board, setBoard] = useState<{ [key: string]: ChessPieceType }>(initialBoard);
-    const [capturedPieces, setCapturedPieces] = useState<{ [color: string]: ChessPieceType[] }>({ white: [], black: [] });
+    const [capturedPieces, setCapturedPieces] = useState<{ [color in 'white' | 'black']: ChessPieceType[] }>({ white: [], black: [] });
 
     const getPiece = (position: string) => {
         const piece = board[position];
@@ -22,46 +25,62 @@ const Chess = () => {
 
     const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
-    }
+    };
 
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         const draggedElementId = event.dataTransfer.getData('id');
         const targetSquare = event.currentTarget as HTMLDivElement;
         const targetSquareId = targetSquare.id.replace('square_', '');
-
+    
         if (draggedElementId && targetSquare) {
             const [, pieceType, pieceColor, originalPosition] = draggedElementId.split('-');
-
-            // Actualizar el estado del tablero para reflejar la nueva posición de la pieza arrastrada
+    
+            // Update the board status to reflect the new position of the dragged piece
+            console.log(board);
+            
             const newBoard = { ...board };
             const newCapturedPieces = { ...capturedPieces };
-
-            // Movimiento en el tablero o captura de una pieza
-            const capturedPiece = newBoard[targetSquareId];
-
-            // Evitar capturar una pieza del mismo color
-            if (capturedPiece && capturedPiece.color === pieceColor) {
-                return;
+    
+            // Moving or capturing a piece
+            const targetPiece = newBoard[targetSquareId];
+    
+            // Allow piece capture and move only if target square is empty or captures enemy piece
+            if (!targetPiece || targetPiece.color !== pieceColor) {
+                if (targetPiece) {
+                    // Capture the enemy piece
+                    newCapturedPieces[targetPiece.color].push(targetPiece);
+                }
+    
+                if (originalPosition.startsWith('captured')) {
+                    // Move piece from the capture area to the board
+                    const color = pieceColor as 'black' | 'white';
+                    const index = parseInt(originalPosition.split('-')[2]);
+    
+                    // Remove the piece from the capture area
+                    const pieceToMove = newCapturedPieces[color].splice(index, 1)[0];
+                    newBoard[targetSquareId] = { ...pieceToMove, position: targetSquareId };
+                } else {
+                    // Move piece within the board
+                    newBoard[targetSquareId] = { type: pieceType as ChessPieceType['type'], color: pieceColor as ChessPieceType['color'], position: targetSquareId };
+                    delete newBoard[originalPosition];
+                }
+    
+                // Update board state and captured pieces
+                setCapturedPieces(newCapturedPieces);
+                setBoard(newBoard);
             }
-
-            if (capturedPiece) {
-                // Pieza capturada
-                newCapturedPieces[capturedPiece.color] = [...newCapturedPieces[capturedPiece.color], capturedPiece];
-            }
-
-            delete newBoard[originalPosition];
-            newBoard[targetSquareId] = { type: pieceType as ChessPieceType['type'], color: pieceColor as ChessPieceType['color'], position: targetSquareId };
-
-            // Actualizar el estado del tablero y las piezas capturadas
-            setCapturedPieces(newCapturedPieces);
-            setBoard(newBoard);
         }
     };
+    
+    const handleReset = () => {
+        setBoard(initialBoard);
+        setCapturedPieces({ white: [], black: [] });
+    }
 
     return (
         <main className="flex flex-col-2 items-center gap-10 mt-20">
-            <section className="grid grid-cols-8 gap-px p-6 bg-red-950">
+            <section className="chess grid grid-cols-8 gap-px p-6">
                 {row.map((r, rowIndex) => (
                     col.map((c, colIndex) => {
                         const position = `${c}${r}`;
@@ -70,7 +89,7 @@ const Chess = () => {
 
                         return (<div
                             id={"square_" + position}
-                            className={`${isEven ? 'bg-amber-100' : 'bg-yellow-950'} text-stone-950 w-20 h-20 flex items-center justify-center`}
+                            className={`square ${isEven ? 'even' : 'odd'} w-20 h-20 flex items-center justify-center`}
                             key={position}
                             onDragOver={handleDragOver}
                             onDrop={handleDrop}>
@@ -79,9 +98,9 @@ const Chess = () => {
                     })
                 ))}
             </section>
-            <section className='captured grid grid-cols-6 grid-rows-6 bg-blue-100 h-72 w-72'>
-                {Object.entries(capturedPieces).flatMap(([color, pieces]) => (
-                    pieces.map((piece, index) => (
+            <section className='captured grid grid-cols-6 grid-rows-6 h-72 w-72'>
+                {['white', 'black'].flatMap(color => (
+                    capturedPieces[color as 'white' | 'black'].map((piece, index) => (
                         <ChessPiece
                             key={`captured-${color}-${index}`}
                             type={piece.type}
@@ -92,9 +111,9 @@ const Chess = () => {
                     ))
                 ))}
             </section>
+            <Button gradientMonochrome="cyan" className="mt-3" onClick={handleReset}>Reset <HiRefresh className="ml-2 h-5 w-5" /></Button>
         </main>
     );
-}
+};
 
 export default Chess;
-

@@ -33,7 +33,7 @@ const ChessPiece: React.FC<ChessPieceType> = ({ type, color, position, size }) =
     const handleDragStart = (event: React.DragEvent<HTMLDivElement>) => {
         event.dataTransfer.setData('id', (event.target as HTMLDivElement).id);
     }
-    
+
     const imageSize = size ? size : 'size-16';
 
     return <img
@@ -41,7 +41,7 @@ const ChessPiece: React.FC<ChessPieceType> = ({ type, color, position, size }) =
         src={pieceIcon}
         draggable="true"
         onDragStart={handleDragStart}
-        className={imageSize}
+        className={`${imageSize} cursor-pointer`}
         alt={`${color} ${type} at ${position}`}
     />;
 };

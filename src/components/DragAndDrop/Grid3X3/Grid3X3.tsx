@@ -27,7 +27,7 @@ const Grid3X3 = () => {
         <main className="flex flex-col items-center mt-40" key={resetKey}>
             <section className="grid grid-cols-3 w-60 h-60 gap-2.5">
                 {itemContainers.map((container, index) => (
-                    <GridContainer id={container} key={index}
+                    <GridContainer className='bg-gray-100 w-full h-full' id={container} key={index}
                         onItemDrop={handleItemDrop}
                     />
                 ))}

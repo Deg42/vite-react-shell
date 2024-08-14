@@ -1,51 +1,59 @@
-import { CustomFlowbiteTheme, Sidebar } from 'flowbite-react';
+import { Button, Drawer, Sidebar } from 'flowbite-react';
+import { useState } from "react";
 import { FaChess } from "react-icons/fa";
-import { HiHand, HiHome, HiOutlineMinusSm, HiOutlinePlusSm, HiViewGrid } from 'react-icons/hi';
+import { HiHand, HiHome, HiMenu, HiOutlineMinusSm, HiOutlinePlusSm, HiViewBoards, HiViewGrid } from 'react-icons/hi';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
 export default function Layout() {
 
-  const customTheme: CustomFlowbiteTheme["sidebar"] = {
-    "root": {
-      "base": "h-full fixed top-0 left-0 z-40 w-64 transition-transform -translate-x-full sm:translate-x-0",
-      "inner": "h-full overflow-y-auto overflow-x-hidden rounded-none bg-slate-200 px-3 py-4 dark:bg-gray-800"
-    },
-    "item": {
-      "base": "flex items-center justify-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-slate-400 dark:text-white dark:hover:bg-gray-700",
-      "active": "bg-slate-300 dark:bg-gray-700",
-    },
-    "collapse": {
-      "button": "group flex w-full items-center rounded-lg p-2 text-base font-normal text-gray-900 transition duration-75 hover:bg-slate-400 dark:text-white dark:hover:bg-gray-700",
-    }
-  }
+  const [isOpen, setIsOpen] = useState(false);
 
+  const handleClose = () => setIsOpen(false);
 
   return (
     <>
-      <Sidebar theme={customTheme} id="sidebar" aria-label="Sidebar">
-        <Sidebar.Items>
-          <Sidebar.ItemGroup>
-            <Link to="/">
-              <Sidebar.Item as={"span"} icon={HiHome} active={useLocation().pathname === "/"} >Home</Sidebar.Item>
-            </Link>
-            <Sidebar.Collapse
-              icon={HiHand}
-              label="Drag And Drop"
-              renderChevronIcon={(theme, open) => {
-                const IconComponent = open ? HiOutlineMinusSm : HiOutlinePlusSm;
+      <div className="flex m-4 items-center">
+        <Button onClick={() => setIsOpen(true)}> <HiMenu className="h-6 w-6" /></Button>
+      </div>
+      <Drawer open={isOpen} onClose={handleClose} theme={{
+        header: {
+          inner: {
+            closeButton: "hidden"
+          }
+        }
+      }}>
+        <Drawer.Header title="MENU" titleIcon={() => <></>} />
+        <Drawer.Items>
+          <Sidebar aria-label="Sidebar with multi-level dropdown"
+            className="[&>div]:bg-transparent [&>div]:p-0">
+            <Sidebar.Items>
+              <Sidebar.ItemGroup>
+                <Link to="/">
+                  <Sidebar.Item as={"span"} icon={HiHome} active={useLocation().pathname === "/"} >Home</Sidebar.Item>
+                </Link>
+                <Link to="/Board">
+                  <Sidebar.Item as={"span"} icon={HiViewBoards} active={useLocation().pathname === "/Board"} >Board</Sidebar.Item>
+                </Link>
+                <Sidebar.Collapse
+                  icon={HiHand}
+                  label="Drag And Drop"
+                  renderChevronIcon={(theme, open) => {
+                    const IconComponent = open ? HiOutlineMinusSm : HiOutlinePlusSm;
 
-                return <IconComponent aria-hidden className={twMerge(theme.label.icon.open[open ? 'on' : 'off'])} />;
-              }}
-            >
-              <Link to="/Grid3X3"><Sidebar.Item as={"span"} icon={HiViewGrid} active={useLocation().pathname === "/Grid3X3"}>Grid 3x3</Sidebar.Item></Link>
-              <Link to="/Chess"><Sidebar.Item as={"span"} icon={FaChess} active={useLocation().pathname === "/Chess"}>Chess</Sidebar.Item></Link>
-            </Sidebar.Collapse>
-          </Sidebar.ItemGroup>
-        </Sidebar.Items>
-      </Sidebar>
+                    return <IconComponent aria-hidden className={twMerge(theme.label.icon.open[open ? 'on' : 'off'])} />;
+                  }}
+                >
+                  <Link to="/Grid3X3"><Sidebar.Item as={"span"} icon={HiViewGrid} active={useLocation().pathname === "/Grid3X3"}>Grid 3x3</Sidebar.Item></Link>
+                  <Link to="/Chess"><Sidebar.Item as={"span"} icon={FaChess} active={useLocation().pathname === "/Chess"}>Chess</Sidebar.Item></Link>
+                </Sidebar.Collapse>
+              </Sidebar.ItemGroup>
+            </Sidebar.Items>
+          </Sidebar>
+        </Drawer.Items>
+      </Drawer>
 
-      <div className="h-full ml-8 md:ml-72 my-4 max-w-screen-xl">
+      <div className="h-full ml-6 md:ml-80 my-4 max-w-screen-xl">
         <Outlet />
       </div>
     </>

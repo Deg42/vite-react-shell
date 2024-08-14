@@ -1,9 +1,10 @@
 interface GridContainerProps {
     id: string;
+    className?: string,
     onItemDrop: (id: string, targetId: string) => void;
 }
 
-const GridContainer: React.FC<GridContainerProps> = ({ id, onItemDrop }) => {
+const GridContainer: React.FC<GridContainerProps> = ({ id, className, onItemDrop }) => {
 
     const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
@@ -19,7 +20,7 @@ const GridContainer: React.FC<GridContainerProps> = ({ id, onItemDrop }) => {
     return (
         <div
             id={id}
-            className="bg-gray-100 w-full h-full relative"
+            className={className + " relative"}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
         />)

@@ -37,6 +37,17 @@ export const updateTask = async (taskId: string, updatedTask: Task): Promise<voi
   }
 };
 
+export const createCheck = async (taskId: string, checkData: { label: string; done: boolean }) => {
+  try {
+    const response = await axios.post(`${BACKEND_URL}/api/kanban/tasks/${taskId}/checks`, checkData);
+
+    return response.data;
+  } catch (error) {
+    console.error('Error creating check:', error);
+    throw error;
+  }
+};
+
 export const deleteTask = async (taskId: string): Promise<void> => {
   try {
     await axios.delete(`${BACKEND_URL}/api/kanban/tasks/${taskId}`);

@@ -26,6 +26,30 @@ router.post('/api/kanban/tasks', async (req: Request, res: Response) => {
     }
 });
 
+router.post('/api/kanban/tasks/:id/checks', async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const newCheck = req.body;
+
+    try {
+        const task = await Task.findById(id);
+
+        if (!task) {
+            return res.status(404).json({ message: 'Task not found' });
+        }
+
+        task.checks.push(newCheck);
+
+        const updatedTask = await task.save();
+
+        const createdCheck = updatedTask.checks[updatedTask.checks.length - 1];
+        res.status(201).json(createdCheck);
+
+    } catch (error) {
+        console.error('Error creating check:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 router.put('/api/kanban/tasks/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
     const updatedTask = req.body;

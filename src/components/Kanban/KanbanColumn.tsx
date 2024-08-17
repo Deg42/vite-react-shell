@@ -1,6 +1,6 @@
 import React from 'react';
-import { Task, Column } from './types';
 import KanbanCard from './KanbanCard';
+import { Column, Task } from './types';
 
 interface KanbanColumnProps {
   column: Column;
@@ -32,8 +32,8 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({ column, tasks, handleDragEn
   };
 
   return (
-    <div className="kanban-column" onDragOver={handleDragOver} onDrop={(e) => handleDrop(e, column.id)}>
-      <h2>{column.title}</h2>
+    <div className="min-w-96 min-h-96 m-2.5 p-2.5 rounded-lg" onDragOver={handleDragOver} onDrop={(e) => handleDrop(e, column.id)}>
+      <h1 className="text-2xl font-bold mb-5">{column.title}</h1>
       <div className="tasks">
         {tasks.map(task => (
           <KanbanCard

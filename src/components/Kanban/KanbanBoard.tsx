@@ -1,7 +1,8 @@
+import { Button } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { HiPlusCircle } from "react-icons/hi";
 import * as kanbanService from '../../services/kanbanService';
-import './Kanban.css';
 import KanbanColumn from './KanbanColumn';
 import { Column, Task } from './types';
 
@@ -74,25 +75,32 @@ const KanbanBoard: React.FC = () => {
       .catch(error => console.error('Error adding task:', error));
   };
 
-  const addCheck = (taskId: string, checkText: string) => {
-    setTasks(prevTasks => {
-      return prevTasks.map(task => {
-        if (task._id === taskId) {
-          const updatedChecks = [...task.checks, { label: checkText, done: false }];
+  const addCheck = async (taskId: string, checkText: string) => {
+    try {
+      const newCheck = await kanbanService.createCheck(taskId, { label: checkText, done: false });
 
-          const updatedTask = { ...task, checks: updatedChecks };
-
-          kanbanService.updateTask(taskId, updatedTask)
-            .catch(error => console.error('Error adding check:', error));
-
-          return updatedTask;
-        }
-        return task;
+      setTasks(prevTasks => {
+        return prevTasks.map(task => {
+          if (task._id === taskId) {
+            const updatedChecks = [...task.checks, newCheck];
+            const updatedTask = { ...task, checks: updatedChecks };
+            return updatedTask;
+          }
+          return task;
+        });
       });
-    });
+    } catch (error) {
+      console.error('Error adding check:', error);
+    }
   };
 
   const removeTask = (taskId: string) => {
+    const confirmed = window.confirm('¿Eliminar tarea?');
+
+    if (!confirmed) {
+      return;
+    }
+
     setTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
 
     kanbanService.deleteTask(taskId)
@@ -100,9 +108,12 @@ const KanbanBoard: React.FC = () => {
   };
 
   const toggleCheck = (taskId: string, checkId: string) => {
+    let updatedTask;
+
     setTasks(prevTasks => {
-      return prevTasks.map(task => {
+      const newTasks = prevTasks.map(task => {
         if (task._id === taskId) {
+
           const updatedChecks = task.checks.map(check => {
             if (check._id === checkId) {
               return { ...check, done: !check.done };
@@ -110,20 +121,30 @@ const KanbanBoard: React.FC = () => {
             return check;
           });
 
-          const updatedTask = { ...task, checks: updatedChecks };
+          updatedTask = { ...task, checks: updatedChecks };
 
           kanbanService.updateTask(taskId, updatedTask)
-            .catch(error => console.error('Error adding check:', error));
-
+            .catch(error => console.error('Error toggling check:', error));
 
           return updatedTask;
         }
         return task;
       });
+
+      return newTasks;
     });
+
+    return updatedTask;
   };
 
+
   const removeCheck = (taskId: string, checkId: string) => {
+    const confirmed = window.confirm('¿Eliminar check?');
+
+    if (!confirmed) {
+      return;
+    }
+
     setTasks(prevTasks => {
       return prevTasks.map(task => {
         if (task._id === taskId) {
@@ -142,11 +163,11 @@ const KanbanBoard: React.FC = () => {
 
   return (
     <main className="flex flex-col">
-      <div className="controls">
-        {hasConnection ? <FaCheckCircle /> : <FaTimesCircle />}
-        <button onClick={addTask}>Añadir tarea</button>
+      <div className="controls flex justify-normal items-center">
+        {hasConnection ? <FaCheckCircle className="mr-2" size={24} color={'green'} /> : <FaTimesCircle className="mr-2" size={24} color={'red'} />}
+        <Button onClick={addTask}><HiPlusCircle className="mr-2 h-5 w-5" />Añadir tarea</Button>
       </div>
-      <div className="kanban-board">
+      <div className="flex justify-between p-5 overflow-x-auto">
         {initialColumns.map(column => (
           <KanbanColumn
             key={column.id}

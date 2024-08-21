@@ -1,7 +1,8 @@
 import { Button, Drawer, Sidebar } from 'flowbite-react';
 import { useState } from "react";
-import { FaChess } from "react-icons/fa";
+import { FaChess, FaDrumstickBite } from "react-icons/fa";
 import { HiHand, HiHome, HiMenu, HiOutlineMinusSm, HiOutlinePlusSm, HiViewBoards, HiViewGrid } from 'react-icons/hi';
+import { HiPaintBrush } from "react-icons/hi2";
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
@@ -46,7 +47,11 @@ export default function Layout() {
                 >
                   <Link to="/Grid3X3"><Sidebar.Item as={"span"} icon={HiViewGrid} active={useLocation().pathname === "/Grid3X3"}>Grid 3x3</Sidebar.Item></Link>
                   <Link to="/Chess"><Sidebar.Item as={"span"} icon={FaChess} active={useLocation().pathname === "/Chess"}>Chess</Sidebar.Item></Link>
+                  <Link to="/Dinosaurs"><Sidebar.Item as={"span"} icon={FaDrumstickBite} active={useLocation().pathname === "/Dinosaurs"}>Dinosaurs</Sidebar.Item></Link>
                 </Sidebar.Collapse>
+                <Link to="/Canvas">
+                  <Sidebar.Item as={"span"} icon={HiPaintBrush} active={useLocation().pathname === "/Canvas"} >Canvas</Sidebar.Item>
+                </Link>
               </Sidebar.ItemGroup>
             </Sidebar.Items>
           </Sidebar>

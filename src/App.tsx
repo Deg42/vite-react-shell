@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Canvas from './components/Canvas/Canvas';
 import Chess from './components/DragAndDrop/Chess/Chess';
+import Dinosaurs from './components/DragAndDrop/Dinosaurs/Dinosaurs';
 import Grid3X3 from './components/DragAndDrop/Grid3X3/Grid3X3';
 import KanbanBoard from './components/Kanban/KanbanBoard';
 import Home from './Home';
@@ -14,6 +16,8 @@ export default function App() {
         <Route path="Board" element={<KanbanBoard />} />
         <Route path="Grid3X3" element={<Grid3X3 />} />
         <Route path="Chess" element={<Chess />} />
+        <Route path="Dinosaurs" element={<Dinosaurs />} />
+        <Route path="Canvas" element={<Canvas />} />
       </Route>
     </Routes>
   )

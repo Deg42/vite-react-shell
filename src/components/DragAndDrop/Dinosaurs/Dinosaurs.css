@@ -1,0 +1,167 @@
+.action-mat {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.94fr 1.06fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    ". . . . . . s s"
+    "a b h h m . t u"
+    "c d i i n o v w"
+    "e f j k p q x y"
+    "g g l l r r z z";
+  border: 1px solid black;
+  background-color: #b2b400;
+}
+
+.action-square {
+  min-height: 80px;
+  min-width: 160px;
+  border: 1px solid black;
+  background-repeat: no-repeat;
+  /* background-position: center; */
+  background-size: contain;
+  display: flex;
+}
+
+.freeStego {
+  grid-area: a;
+  background-image: url(../../../assets/dinosaurs/freeStego.svg);
+}
+
+.freeBrach {
+  grid-area: b;
+  background-image: url(../../../assets/dinosaurs/freeBrach.svg);
+}
+
+.freeVelo {
+  grid-area: c;
+  background-image: url(../../../assets/dinosaurs/freeVelo.svg);
+}
+
+.freeAlo {
+  grid-area: d;
+  background-image: url(../../../assets/dinosaurs/freeAlo.svg);
+}
+
+.marketHerb {
+  grid-area: e;
+  background-image: url(../../../assets/dinosaurs/marketHerb.svg);
+}
+
+.marketCarn {
+  grid-area: f;
+  background-image: url(../../../assets/dinosaurs/marketCarn.svg);
+}
+
+.marketSupply {
+  grid-area: g;
+}
+
+.contract {
+  grid-area: h;
+}
+
+.contractFood {
+  grid-area: i;
+}
+
+.moveBarrierAndDino {
+  grid-area: j;
+}
+
+.threeBarriersForSupplies {
+  grid-area: k;
+}
+
+.researchFood {
+  grid-area: l;
+}
+
+.contractSupply {
+  grid-area: m;
+}
+
+.barrierAndSupply {
+  grid-area: n;
+}
+
+.barriersForSupply {
+  grid-area: o;
+}
+
+.barrier {
+  grid-area: p;
+}
+
+.firstAndMoveBarrier {
+  grid-area: q;
+}
+
+.researchSupplies {
+  grid-area: r;
+}
+
+.resourceAll {
+  grid-area: s;
+}
+
+.resourceHerb {
+  grid-area: t;
+}
+
+.resourceHerbCarn {
+  grid-area: u;
+}
+
+.resourceCarn {
+  grid-area: v;
+}
+
+.resourceCarnSupply {
+  grid-area: w;
+}
+
+.resoruceSupplies {
+  grid-area: x;
+}
+
+.resourceHerbSuply {
+  grid-area: y;
+}
+
+.researchForDino {
+  grid-area: z;
+}
+
+.ranchers {
+  display: flex;
+  flex-direction: row;
+}
+
+.player-mats{
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
+}
+
+.rancher {
+  height: 40px;
+  width: 40px;
+  background-image: url(../../../assets/dinosaurs/meeple.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.action-square .rancher {
+  height: 40px;
+  width: 40px;
+}
+
+.action-square .rancher {
+  height: 40px;
+  width: 40px;
+}
+
+.rancher:active {
+  cursor: grabbing;
+}

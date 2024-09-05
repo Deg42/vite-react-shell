@@ -1,7 +1,7 @@
 import { Button, Drawer, Sidebar } from 'flowbite-react';
 import { useState } from "react";
 import { FaChess, FaDrumstickBite } from "react-icons/fa";
-import { HiHand, HiHome, HiMenu, HiOutlineMinusSm, HiOutlinePlusSm, HiViewBoards, HiViewGrid } from 'react-icons/hi';
+import { HiHand, HiHome, HiMail, HiMenu, HiOutlineMinusSm, HiOutlinePlusSm, HiViewBoards, HiViewGrid } from 'react-icons/hi';
 import { HiPaintBrush } from "react-icons/hi2";
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
@@ -35,6 +35,9 @@ export default function Layout() {
                 </Link>
                 <Link to="/Board">
                   <Sidebar.Item as={"span"} icon={HiViewBoards} active={useLocation().pathname === "/Board"} >Board</Sidebar.Item>
+                </Link>
+                <Link to="/ApiPlatform">
+                  <Sidebar.Item as={"span"} icon={HiMail} active={useLocation().pathname === "/ApiPlatform"} >API Platform</Sidebar.Item>
                 </Link>
                 <Sidebar.Collapse
                   icon={HiHand}

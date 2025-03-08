@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Button } from 'flowbite-react';
 import { localStorageService } from '../../services/localStorageService';
 
 import './ApiPlatform.css';
@@ -105,9 +106,9 @@ const ApiPlatform: React.FC = () => {
                     value={apiAddress}
                     onChange={handleApiAddressChange}
                 />
-                <button type="button" onClick={handleTestUrl}>Probar URL</button>
+                <Button type="button" onClick={handleTestUrl}>Probar URL</Button>
                 {testResponse && (
-                    <button type="button" onClick={handleSaveUrl}>Guardar URL</button>
+                    <Button type="button" onClick={handleSaveUrl}>Guardar URL</Button>
                 )}
             </form>
             {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -134,7 +135,7 @@ const ApiPlatform: React.FC = () => {
                                 : JSON.stringify(response.data, null, 2).slice(0, 100) + '...'}
                         </pre>
 
-                        <button onClick={() => handleDelete(index)}>Eliminar</button>
+                        <Button onClick={() => handleDelete(index)}>Eliminar</Button>
                     </li>
                 ))}
             </ul>

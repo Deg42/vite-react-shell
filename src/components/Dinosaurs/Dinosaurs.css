@@ -25,32 +25,32 @@
 
 .freeStego {
   grid-area: a;
-  background-image: url(../../../assets/dinosaurs/freeStego.svg);
+  background-image: url(../../assets/dinosaurs/freeStego.svg);
 }
 
 .freeBrach {
   grid-area: b;
-  background-image: url(../../../assets/dinosaurs/freeBrach.svg);
+  background-image: url(../../assets/dinosaurs/freeBrach.svg);
 }
 
 .freeVelo {
   grid-area: c;
-  background-image: url(../../../assets/dinosaurs/freeVelo.svg);
+  background-image: url(../../assets/dinosaurs/freeVelo.svg);
 }
 
 .freeAlo {
   grid-area: d;
-  background-image: url(../../../assets/dinosaurs/freeAlo.svg);
+  background-image: url(../../assets/dinosaurs/freeAlo.svg);
 }
 
 .marketHerb {
   grid-area: e;
-  background-image: url(../../../assets/dinosaurs/marketHerb.svg);
+  background-image: url(../../assets/dinosaurs/marketHerb.svg);
 }
 
 .marketCarn {
   grid-area: f;
-  background-image: url(../../../assets/dinosaurs/marketCarn.svg);
+  background-image: url(../../assets/dinosaurs/marketCarn.svg);
 }
 
 .marketSupply {
@@ -147,7 +147,7 @@
 .rancher {
   height: 40px;
   width: 40px;
-  background-image: url(../../../assets/dinosaurs/meeple.svg);
+  background-image: url(../../assets/dinosaurs/meeple.svg);
   background-repeat: no-repeat;
   background-size: contain;
 }

@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 interface GridCanvasProps {
   rows: number;
   columns: number;
-  height: number;
+  size: number;
   tileImageSrc: string;
   tileSize: number;
   selectedTile: { row: number; column: number } | null;
@@ -16,12 +16,14 @@ interface Cell {
   tileColumn: number;
 }
 
-const GridCanvas: React.FC<GridCanvasProps> = ({ rows, columns, height, tileImageSrc, tileSize, selectedTile }) => {
+const GridCanvas: React.FC<GridCanvasProps> = ({ rows, columns, size, tileImageSrc, tileSize, selectedTile }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [cellImages, setCellImages] = useState<Cell[]>([]);
 
-  const cellSize = height / rows;
-  const width = columns * cellSize;
+  const cellSize = (size / rows);
+  // const height = size;
+  // const width = columns * cellSize;
+  
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -29,21 +31,22 @@ const GridCanvas: React.FC<GridCanvasProps> = ({ rows, columns, height, tileImag
       const context = canvas.getContext('2d');
       if (context) {
         // Limpia el canvas
-        context.clearRect(0, 0, width, height);
+        context.clearRect(0, 0, size, size);
+        context.imageSmoothingEnabled = false;
 
         // Rellenar el fondo del canvas
         context.fillStyle = 'white';
-        context.fillRect(0, 0, width, height);
+        context.fillRect(0, 0, size, size);
 
         // Dibujar las líneas de la cuadrícula
         context.beginPath();
         for (let i = 0; i <= rows; i++) {
           context.moveTo(0, i * cellSize);
-          context.lineTo(width, i * cellSize);
+          context.lineTo(size, i * cellSize);
         }
         for (let i = 0; i <= columns; i++) {
           context.moveTo(i * cellSize, 0);
-          context.lineTo(i * cellSize, height);
+          context.lineTo(i * cellSize, size);
         }
         context.strokeStyle = 'black';
         context.stroke();
@@ -65,7 +68,7 @@ const GridCanvas: React.FC<GridCanvasProps> = ({ rows, columns, height, tileImag
         };
       }
     }
-  }, [rows, columns, width, height, cellSize, cellImages, tileImageSrc, tileSize]);
+  }, [rows, columns, size, cellSize, cellImages, tileImageSrc, tileSize]);
 
   const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
     if (!selectedTile) return;
@@ -102,7 +105,7 @@ const GridCanvas: React.FC<GridCanvasProps> = ({ rows, columns, height, tileImag
     }
   };
 
-  return <canvas ref={canvasRef} width={width} height={height} onClick={handleCanvasClick} />;
+  return <canvas ref={canvasRef} width={size} height={size} onClick={handleCanvasClick} />;
 };
 
 export default GridCanvas;

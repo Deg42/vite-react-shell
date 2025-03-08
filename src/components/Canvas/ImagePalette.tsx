@@ -2,21 +2,21 @@ import React, { useEffect, useRef } from 'react';
 
 interface ImagePaletteProps {
   tileImageSrc: string;
-  tileSize: number;
   tilesPerRow: number;
   tilesPerColumn: number;
+  scaleFactor: number;
   onSelectTile: (tile: { row: number; column: number }) => void;
 }
 
 const ImagePalette: React.FC<ImagePaletteProps> = ({
   tileImageSrc,
-  tileSize,
   tilesPerRow,
   tilesPerColumn,
-  onSelectTile
+  scaleFactor,
+  onSelectTile,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
+  
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas) {
@@ -25,53 +25,70 @@ const ImagePalette: React.FC<ImagePaletteProps> = ({
         const image = new Image();
         image.src = tileImageSrc;
         image.onload = () => {
-          context.clearRect(0, 0, canvas.width, canvas.height); // Limpia el canvas
-          context.drawImage(image, 0, 0, canvas.width, canvas.height);
-          
-          // Dibuja la cuadrícula sobre la imagen
+          const originalTileWidth = image.width / tilesPerRow;
+          const originalTileHeight = image.height / tilesPerColumn;
+
+          const scaledWidth = image.width * scaleFactor;
+          const scaledHeight = image.height * scaleFactor;
+          const scaledTileWidth = originalTileWidth * scaleFactor;
+          const scaledTileHeight = originalTileHeight * scaleFactor;
+
+          // Ajustar el tamaño del canvas
+          canvas.width = scaledWidth;
+          canvas.height = scaledHeight;
+
+          // Desactivar el suavizado de imágenes
+          context.imageSmoothingEnabled = false;
+
+          // Dibujar la imagen escalada
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          context.drawImage(image, 0, 0, scaledWidth, scaledHeight);
+
+          // Dibujar la cuadrícula escalada
           context.beginPath();
           context.strokeStyle = 'black';
           context.lineWidth = 1;
 
-          // Dibujar líneas horizontales
           for (let i = 0; i <= tilesPerColumn; i++) {
-            context.moveTo(0, i * tileSize);
-            context.lineTo(canvas.width, i * tileSize);
+            context.moveTo(0, i * scaledTileHeight);
+            context.lineTo(scaledWidth, i * scaledTileHeight);
           }
 
-          // Dibujar líneas verticales
           for (let i = 0; i <= tilesPerRow; i++) {
-            context.moveTo(i * tileSize, 0);
-            context.lineTo(i * tileSize, canvas.height);
+            context.moveTo(i * scaledTileWidth, 0);
+            context.lineTo(i * scaledTileWidth, scaledHeight);
           }
 
           context.stroke();
         };
       }
     }
-  }, [tileImageSrc, tileSize, tilesPerRow, tilesPerColumn]);
+  }, [tileImageSrc, tilesPerRow, tilesPerColumn, scaleFactor]);
 
   const handlePaletteClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const canvas = canvasRef.current;
+    if (canvas) {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
 
-    const column = Math.floor(x / tileSize);
-    const row = Math.floor(y / tileSize);
+      const scaledTileWidth = (canvas.width / tilesPerRow);
+      const scaledTileHeight = (canvas.height / tilesPerColumn);
 
-    onSelectTile({ row, column });
+      const column = Math.floor(x / scaledTileWidth);
+      const row = Math.floor(y / scaledTileHeight);
+
+      console.log(`Selected Tile: Row ${row}, Column ${column}`);
+      onSelectTile({ row, column });
+    }
   };
 
   return (
-    <>
-      <canvas
-        ref={canvasRef}
-        width={tileSize * tilesPerRow}
-        height={tileSize * tilesPerColumn}
-        style={{ border: '1px solid black', cursor: 'pointer' }}
-        onClick={handlePaletteClick}
-      />
-    </>
+    <canvas
+      ref={canvasRef}
+      style={{ border: '1px solid black', cursor: 'pointer' }}
+      onClick={handlePaletteClick}
+    />
   );
 };
 

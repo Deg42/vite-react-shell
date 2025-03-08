@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&display=swap'); 
+
+#hand {
+    cursor: pointer;
+    display: flex;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+#hand>* {
+  @media (hover: hover) {
+        &:hover {
+            transform: translate(var(--positionX), -100px) rotate(0);
+        }
+    }
+}
+
+#hand>*:nth-child(7){ --angle: 12.857deg;   --positionX: -150px; --positionY:0px;    --zindex: 7} 
+#hand>*:nth-child(6){ --angle: 6.428deg;    --positionX: -100px; --positionY:-20px;  --zindex: 6}
+#hand>*:nth-child(5){ --angle: 3.214deg;    --positionX: -50px;  --positionY:-30px;  --zindex: 5} 
+#hand>*:nth-child(4){ --angle: 0deg;        --positionX: 0px;    --positionY:-35px;  --zindex: 4}
+#hand>*:nth-child(3){ --angle: -3.214deg;   --positionX: 50px;   --positionY:-30px;  --zindex: 3} 
+#hand>*:nth-child(2){ --angle: -6.428deg;   --positionX: 100px;  --positionY:-20px;  --zindex: 2}
+#hand>*:nth-child(1){ --angle: -12.857deg;  --positionX: 150px;  --positionY:0px;    --zindex: 1}
+
+.deck-group{
+    display: flex;
+    overflow: visible;
+}
+
+.deck-group>.card {
+    width: 98px;
+    height: 140px;
+    flex-shrink: 0;
+    box-shadow: 10px 10px 15px 10px rgba(44, 44, 44, 0.8);
+
+
+    &::before{
+        font-size: 36.8px;
+        font-synthesis-weight: auto;
+        margin-top: 15.8px;
+        margin-left: 5.3px;
+    }
+
+    &::after{
+        font-family: "Noto Sans Symbols 2", serif;
+        font-size: 39.4px;
+        font-weight: bold;
+        margin-bottom: 15.8px;
+        margin-left: 5.3px;
+    }
+
+}
+
+.deck-group>*:nth-child(1){ --angle: 0deg; --positionX: 0px;    --positionY:0px; }
+.deck-group>*:nth-child(2){ --angle: 0deg; --positionX: -50px;  --positionY:0px; }
+.deck-group>*:nth-child(3){ --angle: 0deg; --positionX: -100px; --positionY:0px; }
+.deck-group>*:nth-child(4){ --angle: 0deg; --positionX: -150px; --positionY:0px; }
+.deck-group>*:nth-child(5){ --angle: 0deg; --positionX: -200px; --positionY:0px; }
+.deck-group>*:nth-child(6){ --angle: 0deg; --positionX: -250px; --positionY:0px; }
+.deck-group>*:nth-child(7){ --angle: 0deg; --positionX: -300px; --positionY:0px; }
+.deck-group>*:nth-child(8){ --angle: 0deg; --positionX: -350px; --positionY:0px; }
+.deck-group>*:nth-child(9){ --angle: 0deg; --positionX: -400px; --positionY:0px; }
+.deck-group>*:nth-child(10){ --angle: 0deg; --positionX: -450px; --positionY:0px; }
+.deck-group>*:nth-child(11){ --angle: 0deg; --positionX: -500px; --positionY:0px; }
+.deck-group>*:nth-child(12){ --angle: 0deg; --positionX: -550px; --positionY:0px; }
+.deck-group>*:nth-child(13){ --angle: 0deg; --positionX: -600px; --positionY:0px; }
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: "Varela Round", sans-serif;
+    font-weight: bold;
+    line-height: 20px;
+    width: 140px;
+    height: 200px;
+    border-radius: 20px;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 10px 10px 15px 10px rgba(44, 44, 44, 0.8);
+    transition: 0.6s ease all;
+    transform:
+        translate(var(--positionX), var(--positionY)) rotate(var(--angle));
+    z-index: var(--zindex);
+
+    &.highlight {
+        transform: translate(var(--positionX), -100px) rotate(0);
+    }
+
+    &::before{
+        font-size: 52.5px;
+        font-synthesis-weight: auto;
+        margin-top: 22.5px;
+        margin-left: 7.5px;
+    }
+
+    &:after{
+        font-family: "Noto Sans Symbols 2", serif;
+        font-size: 56.25px;
+        font-weight: bold;
+        margin-bottom: 22.5px;
+        margin-left: 7.5px;
+    }
+}
+
+.A::before {content: 'A';}
+.\32::before {content: '2';}
+.\33::before {content: '3';}
+.\34::before {content: '4';}
+.\35::before {content: '5';}
+.\36::before {content: '6';}
+.\37::before {content: '7';}
+.\38::before {content: '8';}
+.\39::before {content: '9';}
+.\31 0::before {content: '10';}
+.J::before {content: 'J';}
+.Q::before {content: 'Q';}
+.K::before {content: 'K';}
+
+.diamonds, .hearts{color: red;}
+.spades, .clubs{color: black;}
+.spades::after{content: '♠';}
+.clubs::after{content: '♣';}
+.diamonds::after{content: '♦';}
+.hearts::after{content: '♥';}
+
+@media only screen and (max-width: 425px) {
+
+    #hand>*:nth-child(7){--positionX: -90px;} 
+    #hand>*:nth-child(6){--positionX: -60px;} 
+    #hand>*:nth-child(5){--positionX: -30px;} 
+    #hand>*:nth-child(4){--positionX: 0px;} 
+    #hand>*:nth-child(3){--positionX: 30px;} 
+    #hand>*:nth-child(2){--positionX: 60px;} 
+    #hand>*:nth-child(1){--positionX: 90px;} 
+
+    .card {
+        height: 110px;
+        width: 77px;
+        transform:
+            translate(var(--positionX), 0) rotate(0);
+
+        &::before {
+            font-size: 26.25px;
+            margin-top: 11.25px;
+            margin-left: 3.75px;
+        }
+
+        &::after{
+            font-size: 28.125px;
+            margin-bottom: 11.25px;
+            margin-left: 3.75px;
+        }
+    }
+}

@@ -20,7 +20,7 @@ const Chess: React.FC = () => {
 
     const getPiece = (position: string) => {
         const piece = board[position];
-        return piece ? <ChessPiece key={piece.position} type={piece.type} color={piece.color} position={piece.position} /> : null;
+        return piece ? <ChessPiece key={piece.position} type={piece.type} color={piece.color} position={piece.position} size="w-8 h-8 md:w-12 md:h-12 lg:w-20 lg:h-20"/> : null;
     };
 
     const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
@@ -79,7 +79,7 @@ const Chess: React.FC = () => {
     }
 
     return (
-        <main className="flex flex-col-2 items-center gap-10 mt-20">
+        <main className="flex flex-col lg:flex-row flex-col-2 items-center gap-10 mt-20 ">
             <section className="chess grid grid-cols-8 gap-px p-6">
                 {row.map((r, rowIndex) => (
                     col.map((c, colIndex) => {
@@ -89,7 +89,7 @@ const Chess: React.FC = () => {
 
                         return (<div
                             id={"square_" + position}
-                            className={`square ${isEven ? 'even' : 'odd'} w-20 h-20 flex items-center justify-center`}
+                            className={`square ${isEven ? 'even' : 'odd'} w-8 h-8 md:w-12 md:h-12 lg:w-20 lg:h-20 flex items-center justify-center`}
                             key={position}
                             onDragOver={handleDragOver}
                             onDrop={handleDrop}>
